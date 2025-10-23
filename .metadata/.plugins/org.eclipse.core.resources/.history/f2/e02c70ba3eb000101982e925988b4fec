@@ -1,0 +1,35 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Cliente {
+    private int idCli;
+    private String ape, nom, dir, tel;
+    private static List<Prestamo> pres;
+
+    public Cliente(int idCli, String ape, String nom, String dir, String tel) {
+        this.idCli = idCli;
+        this.ape = ape;
+        this.nom = nom;
+        this.dir = dir;
+        this.tel = tel;
+        this.pres = new ArrayList<>();
+    }
+
+    public String DatosCliente() {
+        return "IdCliente: " + idCli +
+               "\nApellido: " + ape +
+               "\nNombre: " + nom +
+               "\nDirección: " + dir +
+               "\nTeléfono: " + tel;
+    }
+
+    public static void AgregarPrestamo(Prestamo presta) {
+        pres.add(presta);
+    }
+
+    public static List<Prestamo> ObtenerPrestamo() {
+        return pres;
+    }
+}

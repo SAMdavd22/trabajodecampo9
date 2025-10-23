@@ -1,0 +1,19 @@
+package manajer;
+
+public class Detalle_Prod_MatPrima 
+{
+	private int cantUtilizada;
+    private Producto prod;
+    private MateriaPrima mate;
+
+    public Detalle_Prod_MatPrima(int cantUtilizada, Producto prod, MateriaPrima mate) {
+        this.cantUtilizada = cantUtilizada;
+        this.prod = prod;
+        this.mate = mate;
+    }
+
+    public String MostrarDetalle_Prod_Mat() {
+        return mate.MostrarMateriaPrima() + " cantidad " + cantUtilizada;
+    }
+
+}

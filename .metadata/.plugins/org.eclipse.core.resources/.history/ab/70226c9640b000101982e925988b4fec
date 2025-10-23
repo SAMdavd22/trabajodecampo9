@@ -1,0 +1,108 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class InterfazUsuario extends JFrame implements ActionListener {
+    private JTextField txtCodigo;
+    private JTextField txtNombre;
+    private JTextField txtModelo;
+    private JComboBox<Categoria> cmbCategoria;
+    private JTextField txtPrecio;
+    private JTextField txtStock;
+    private ProductoManager productoManager;
+    
+    public InterfazUsuario() {
+        setTitle("Sistema de Gestión de Tienda");
+        setSize(600, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        // Panel para entrada de datos
+        JPanel panelEntrada = new JPanel(new GridLayout(7, 2));
+        panelEntrada.add(new JLabel("Código:"));
+        txtCodigo = new JTextField();
+        panelEntrada.add(txtCodigo);
+        
+        panelEntrada.add(new JLabel("Nombre:"));
+        txtNombre = new JTextField();
+        panelEntrada.add(txtNombre);
+        
+        panelEntrada.add(new JLabel("Modelo:"));
+        txtModelo = new JTextField();
+        panelEntrada.add(txtModelo);
+        
+        panelEntrada.add(new JLabel("Categoría:"));
+        cmbCategoria = new JComboBox<>();
+        panelEntrada.add(cmbCategoria);
+        
+        panelEntrada.add(new JLabel("Precio:"));
+        txtPrecio = new JTextField();
+        panelEntrada.add(txtPrecio);
+        
+        panelEntrada.add(new JLabel("Stock:"));
+        txtStock = new JTextField();
+        panelEntrada.add(txtStock);
+        
+        // Botones
+        JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.addActionListener(this);
+        
+        JButton btnEliminar = new JButton("Eliminar");
+        btnEliminar.addActionListener(this);
+        
+        JButton btnBuscar = new JButton("Buscar");
+        btnBuscar.addActionListener(this);
+        
+        // Panel de botones
+        JPanel panelBotones = new JPanel();
+        panelBotones.add(btnAgregar);
+        panelBotones.add(btnEliminar);
+        panelBotones.add(btnBuscar);
+        
+        // Organizar componentes
+        add(panelEntrada, BorderLayout.CENTER);
+        add(panelBotones, BorderLayout.SOUTH);
+        
+        productoManager = new ProductoManager();
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String comando = e.getActionCommand();
+        try {
+            switch (comando) {
+                case "Agregar":
+                    agregarProducto();
+                    break;
+                case "Eliminar":
+                    eliminarProducto();
+                    break;
+                case "Buscar":
+                    buscarProducto();
+                    break;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(
+                this, 
+                "Error en los datos ingresados", 
+                "Error", 
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+    
+    private void agregarProducto() {
+        Producto p = new Producto(
+            txtCodigo.getText(),
+            txtNombre.getText(),
+            txtModelo.getText(),
+            (Categoria)cmbCategoria.getSelectedItem(),
+            Double.parseDouble(txtPrecio.getText()),
+            Integer.parseInt(txtStock.getText())
+        );
+        productoManager.agregarProducto(p);
+        limpiarCampos();
+    }
+    
+    private void eliminarProducto() {
+        productoManager.eliminarProducto(txt

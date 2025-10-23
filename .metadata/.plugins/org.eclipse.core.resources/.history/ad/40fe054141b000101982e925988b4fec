@@ -1,0 +1,109 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class InterfazUsuario extends JFrame {
+    private JTextField txtCodigo;
+    private JTextField txtNombre;
+    private JTextField txtModelo;
+    private JComboBox<Categoria> cbCategoria;
+    private JTextField txtPrecio;
+    private JTextField txtStock;
+    private DefaultListModel<Producto> modeloLista;
+    private JList<Producto> listaProductos;
+
+    public InterfazUsuario() {
+        setTitle("Sistema de Gestión de Productos");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 600);
+        crearGUI();
+    }
+
+    private void crearGUI() {
+        JPanel panel = new JPanel(new BorderLayout());
+        // Panel superior con campos de entrada
+        JPanel panelEntrada = new JPanel(new GridLayout(6, 2));
+        panelEntrada.add(new JLabel("Código:"));
+        txtCodigo = new JTextField();
+        panelEntrada.add(txtCodigo);
+
+        panelEntrada.add(new JLabel("Nombre:"));
+        txtNombre = new JTextField();
+        panelEntrada.add(txtNombre);
+
+        panelEntrada.add(new JLabel("Modelo:"));
+        txtModelo = new JTextField();
+        panelEntrada.add(txtModelo);
+
+        panelEntrada.add(new JLabel("Categoría:"));
+        cbCategoria = new JComboBox<>();
+        panelEntrada.add(cbCategoria);
+
+        panelEntrada.add(new JLabel("Precio:"));
+        txtPrecio = new JTextField();
+        panelEntrada.add(txtPrecio);
+
+        panelEntrada.add(new JLabel("Stock:"));
+        txtStock = new JTextField();
+        panelEntrada.add(txtStock);
+
+        // Panel central con lista de productos
+        modeloLista = new DefaultListModel<>();
+        listaProductos = new JList<>(modeloLista);
+        JScrollPane scrollPane = new JScrollPane(listaProductos);
+
+        // Botones
+        JPanel panelBotones = new JPanel();
+        JButton btnAgregar = new JButton("Agregar Producto");
+        btnAgregar.addActionListener(e -> agregarProducto());
+        panelBotones.add(btnAgregar);
+
+        JButton btnEliminar = new JButton("Eliminar Producto");
+        btnEliminar.addActionListener(e -> eliminarProducto());
+        panelBotones.add(btnEliminar);
+
+        // Organizar componentes
+        panel.add(panelEntrada, BorderLayout.NORTH);
+        panel.add(scrollPane, BorderLayout.CENTER);
+        panel.add(panelBotones, BorderLayout.SOUTH);
+
+        add(panel);
+    }
+
+    private void agregarProducto() {
+        try {
+            int codigo = Integer.parseInt(txtCodigo.getText());
+            String nombre = txtNombre.getText();
+            String modelo = txtModelo.getText();
+            Categoria categoria = (Categoria) cbCategoria.getSelectedItem();
+            double precio = Double.parseDouble(txtPrecio.getText());
+            int stock = Integer.parseInt(txtStock.getText());
+
+            Producto producto = new Producto(codigo, nombre, modelo, 
+                                          categoria, precio, stock);
+            modeloLista.addElement(producto);
+            
+            // Limpiar campos
+            limpiarCampos();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                "Error en los datos ingresados", 
+                "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void limpiarCampos() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtModelo.setText("");
+        txtPrecio.setText("");
+        txtStock.setText("");
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            InterfazUsuario interfaz = new InterfazUsuario();
+            interfaz.setVisible(true);
+        });
+    }
+}

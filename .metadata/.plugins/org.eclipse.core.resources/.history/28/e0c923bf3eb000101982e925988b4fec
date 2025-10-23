@@ -1,0 +1,20 @@
+package modelo;
+
+public class Producto 
+{
+	private int idProd, canProd;
+    private String nomProd;
+    private double costoProd;
+
+    public Producto(int idProd, int canProd, String nomProd, double costoProd) {
+        this.idProd = idProd;
+        this.canProd = canProd;
+        this.nomProd = nomProd;
+        this.costoProd = costoProd;
+    }
+
+    public String MostrarProducto() 
+    {
+        return "\nIdProducto: " + idProd +"\nNombre: " + nomProd +"\nCantidad: " + canProd +"\nCosto: " + costoProd;
+    }
+}

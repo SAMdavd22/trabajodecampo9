@@ -1,0 +1,51 @@
+package gui;
+
+import java.awt.EventQueue;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.*;
+import manager.ProductoManager;
+import modelo.Categoria;
+import modelo.Producto;
+
+public class Ventana1 extends JFrame implements ActionListener {
+
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JButton btnAgregar, btnEliminar, btnBuscar;
+    private JTextField txtCodigo, txtNombre, txtModelo, txtPrecio, txtStock;
+    private JTextArea txtS;
+    private JComboBox<Categoria> cmbCategoria;
+    private ProductoManager productoManager;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                Ventana1 frame = new Ventana1();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public Ventana1() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 750, 450);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        productoManager = new ProductoManager();
+
+        JLabel lblTitulo = new JLabel("Sistema de Gestión de Productos");
+        lblTitulo.setBounds(260, 20, 250, 20);
+        contentPane.add(lblTitulo);
+
+        JLabel lblCodigo = new JLabel("Código:");
+        lblCodigo.setBounds(30, 70, 60, 20);
+        contentPane.add(lblCodigo);
+        txtCodigo = new JTextField();
+
+

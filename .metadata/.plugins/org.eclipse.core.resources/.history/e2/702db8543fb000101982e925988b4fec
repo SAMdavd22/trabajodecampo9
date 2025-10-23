@@ -1,0 +1,17 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Producto {
+    private String codigo;
+    private String nombre;
+    private String modelo;
+    private Categoria categoria;
+    private double precio;
+    private int stock;
+    
+ 
+    
+  
+}

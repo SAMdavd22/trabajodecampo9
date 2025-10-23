@@ -1,0 +1,214 @@
+package gui;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import modelo.Producto;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import java.awt.event.ActionListener;
+import java.util.Locale.Category;
+import java.awt.event.ActionEvent;
+
+public class Ventana1 extends JFrame implements ActionListener {
+
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JLabel lblNewLabel;
+	private JButton btnNewButton;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
+	private JLabel lblNewLabel_1;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_6;
+	private JTextField txtCodigo;
+	private JTextField txtNombre;
+	private JTextField txtModelo;
+	private JComboBox cmbCategoria;
+	private JTextField txtPrecio;
+	private JTextField txtStock;
+	private JScrollPane scrollPane;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Ventana1 frame = new Ventana1();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Ventana1() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 728, 411);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		lblNewLabel = new JLabel("Sistema de gestión");
+		lblNewLabel.setBounds(239, 34, 113, 21);
+		contentPane.add(lblNewLabel);
+		
+		btnNewButton = new JButton("Agregar");
+		btnNewButton.addActionListener(this);
+		btnNewButton.setBounds(94, 211, 84, 20);
+		contentPane.add(btnNewButton);
+		
+		btnNewButton_1 = new JButton("Eliminar");
+		btnNewButton_1.addActionListener(this);
+		btnNewButton_1.setBounds(94, 261, 84, 20);
+		contentPane.add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("Buscar");
+		btnNewButton_2.addActionListener(this);
+		btnNewButton_2.setBounds(94, 316, 84, 20);
+		contentPane.add(btnNewButton_2);
+		
+		lblNewLabel_1 = new JLabel("Codigo");
+		lblNewLabel_1.setBounds(10, 92, 44, 12);
+		contentPane.add(lblNewLabel_1);
+		
+		lblNewLabel_2 = new JLabel("Nombre");
+		lblNewLabel_2.setBounds(160, 92, 44, 12);
+		contentPane.add(lblNewLabel_2);
+		
+		lblNewLabel_3 = new JLabel("Modelo");
+		lblNewLabel_3.setBounds(324, 92, 44, 12);
+		contentPane.add(lblNewLabel_3);
+		
+		lblNewLabel_4 = new JLabel("Categoria");
+		lblNewLabel_4.setBounds(476, 92, 44, 12);
+		contentPane.add(lblNewLabel_4);
+		
+		lblNewLabel_5 = new JLabel("Precio");
+		lblNewLabel_5.setBounds(160, 152, 44, 12);
+		contentPane.add(lblNewLabel_5);
+		
+		lblNewLabel_6 = new JLabel("Stock");
+		lblNewLabel_6.setBounds(10, 152, 44, 12);
+		contentPane.add(lblNewLabel_6);
+		
+		txtCodigo = new JTextField();
+		txtCodigo.setBounds(54, 89, 96, 18);
+		contentPane.add(txtCodigo);
+		txtCodigo.setColumns(10);
+		
+		txtNombre = new JTextField();
+		txtNombre.setBounds(214, 89, 96, 18);
+		contentPane.add(txtNombre);
+		txtNombre.setColumns(10);
+		
+		txtModelo = new JTextField();
+		txtModelo.setBounds(370, 89, 96, 18);
+		contentPane.add(txtModelo);
+		txtModelo.setColumns(10);
+		
+		cmbCategoria = new JComboBox();
+		cmbCategoria.setBounds(530, 88, 96, 20);
+		contentPane.add(cmbCategoria);
+		
+		txtPrecio = new JTextField();
+		txtPrecio.setBounds(54, 149, 96, 18);
+		contentPane.add(txtPrecio);
+		txtPrecio.setColumns(10);
+		
+		txtStock = new JTextField();
+		txtStock.setBounds(214, 149, 96, 18);
+		contentPane.add(txtStock);
+		txtStock.setColumns(10);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(239, 208, 450, 137);
+		contentPane.add(scrollPane);
+		
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
+
+	}
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnNewButton_2) {
+			do_btnNewButton_2_actionPerformed(e);
+		}
+		if (e.getSource() == btnNewButton_1) {
+			do_btnNewButton_1_actionPerformed(e);
+		}
+		if (e.getSource() == btnNewButton) {
+			do_btnNewButton_actionPerformed(e);
+		}
+	}
+	protected void do_btnNewButton_actionPerformed(ActionEvent e) 
+	{
+		try {
+            String codigo = txtCodigo.getText();
+            String nombre = txtNombre.getText();
+            String modelo = txtModelo.getText();
+            Categoria categoria = (Categoria) cmbCategoria.getSelectedItem();
+            double precio = Double.parseDouble(txtPrecio.getText());
+            int stock = Integer.parseInt(txtStock.getText());
+
+            Producto producto = new Producto(codigo, nombre, modelo, categoria, precio, stock);
+            productoManager.agregarProducto(producto);
+            listarProductos();
+            limpiarCampos();
+
+            JOptionPane.showMessageDialog(this, "Producto agregado correctamente.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error en los datos ingresados.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+	}
+	protected void do_btnNewButton_1_actionPerformed(ActionEvent e) 
+	{
+		 int indiceSeleccionado = listaProductos.getSelectedIndex();
+		    if (indiceSeleccionado != -1) {
+		        modeloLista.remove(indiceSeleccionado);
+		    }
+	}
+	
+	protected void do_btnNewButton_2_actionPerformed(ActionEvent e) 
+	{
+		String codigoBusqueda = txtCodigo.getText();
+	    // Implementación de búsqueda aquí
+	}
+
+	private void limpiarCampos() {
+	    txtCodigo.setText("");
+	    txtNombre.setText("");
+	    txtModelo.setText("");
+	    txtPrecio.setText("");
+	    txtStock.setText("");
+	}
+
+	public static void main(String[] args) {
+	    SwingUtilities.invokeLater(() -> {
+	        InterfazUsuario interfaz = new InterfazUsuario();
+	        interfaz.setVisible(true);
+	    });
+
+	}
+

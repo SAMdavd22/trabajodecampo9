@@ -1,0 +1,171 @@
+package gui;
+
+import java.awt.EventQueue;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.*;
+import manajer.ProductoManager;
+import modelo.Categoria;
+import modelo.Producto;
+
+public class Ventana1 extends JFrame implements ActionListener {
+
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private JButton btnAgregar, btnEliminar, btnBuscar;
+    private JTextField txtCodigo, txtNombre, txtModelo, txtPrecio, txtStock;
+    private JTextArea txtS;
+    private JComboBox<Categoria> cmbCategoria;
+    private ProductoManager productoManager;
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                Ventana1 frame = new Ventana1();
+                frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public Ventana1() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 750, 450);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        productoManager = new ProductoManager();
+
+        JLabel lblTitulo = new JLabel("Sistema de Gestión de Productos");
+        lblTitulo.setBounds(260, 20, 250, 20);
+        contentPane.add(lblTitulo);
+
+        JLabel lblCodigo = new JLabel("Código:");
+        lblCodigo.setBounds(30, 70, 60, 20);
+        contentPane.add(lblCodigo);
+        txtCodigo = new JTextField();
+        txtCodigo.setBounds(90, 70, 100, 20);
+        contentPane.add(txtCodigo);
+
+        JLabel lblNombre = new JLabel("Nombre:");
+        lblNombre.setBounds(210, 70, 60, 20);
+        contentPane.add(lblNombre);
+        txtNombre = new JTextField();
+        txtNombre.setBounds(270, 70, 100, 20);
+        contentPane.add(txtNombre);
+
+        JLabel lblModelo = new JLabel("Modelo:");
+        lblModelo.setBounds(390, 70, 60, 20);
+        contentPane.add(lblModelo);
+        txtModelo = new JTextField();
+        txtModelo.setBounds(450, 70, 100, 20);
+        contentPane.add(txtModelo);
+
+        JLabel lblCategoria = new JLabel("Categoría:");
+        lblCategoria.setBounds(570, 70, 70, 20);
+        contentPane.add(lblCategoria);
+        cmbCategoria = new JComboBox<>();
+        cmbCategoria.addItem(new Categoria(1, "Electrónica"));
+        cmbCategoria.addItem(new Categoria(2, "Hogar"));
+        cmbCategoria.addItem(new Categoria(3, "Oficina"));
+        cmbCategoria.setBounds(640, 70, 90, 20);
+        contentPane.add(cmbCategoria);
+
+        JLabel lblPrecio = new JLabel("Precio:");
+        lblPrecio.setBounds(30, 110, 60, 20);
+        contentPane.add(lblPrecio);
+        txtPrecio = new JTextField();
+        txtPrecio.setBounds(90, 110, 100, 20);
+        contentPane.add(txtPrecio);
+
+        JLabel lblStock = new JLabel("Stock:");
+        lblStock.setBounds(210, 110, 60, 20);
+        contentPane.add(lblStock);
+        txtStock = new JTextField();
+        txtStock.setBounds(270, 110, 100, 20);
+        contentPane.add(txtStock);
+
+        btnAgregar = new JButton("Agregar");
+        btnAgregar.setBounds(100, 160, 100, 25);
+        btnAgregar.addActionListener(this);
+        contentPane.add(btnAgregar);
+
+        btnEliminar = new JButton("Eliminar");
+        btnEliminar.setBounds(230, 160, 100, 25);
+        btnEliminar.addActionListener(this);
+        contentPane.add(btnEliminar);
+
+        btnBuscar = new JButton("Buscar");
+        btnBuscar.setBounds(360, 160, 100, 25);
+        btnBuscar.addActionListener(this);
+        contentPane.add(btnBuscar);
+
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setBounds(30, 210, 700, 180);
+        contentPane.add(scrollPane);
+
+        txtS = new JTextArea();
+        scrollPane.setViewportView(txtS);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object fuente = e.getSource();
+
+        if (fuente == btnAgregar) {
+            agregarProducto();
+        } else if (fuente == btnEliminar) {
+            eliminarProducto();
+        } else if (fuente == btnBuscar) {
+            buscarProducto();
+        }
+    }
+
+    private void agregarProducto() {
+        try {
+            String codigo = txtCodigo.getText();
+            String nombre = txtNombre.getText();
+            String modelo = txtModelo.getText();
+            Categoria categoria = (Categoria) cmbCategoria.getSelectedItem();
+            double precio = Double.parseDouble(txtPrecio.getText());
+            int stock = Integer.parseInt(txtStock.getText());
+
+            Producto p = new Producto(codigo, nombre, modelo, categoria, precio, stock);
+            productoManager.agregarProducto(p);
+            txtS.append("Agregado: " + p + "\n");
+            limpiarCampos();
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error al agregar producto", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void eliminarProducto() {
+        String codigo = txtCodigo.getText();
+        productoManager.eliminarProducto(codigo);
+        txtS.append("Producto eliminado: " + codigo + "\n");
+    }
+
+    private void buscarProducto() {
+        String codigo = txtCodigo.getText();
+        Producto p = productoManager.buscarProducto(codigo);
+        if (p != null) {
+            txtS.append("Encontrado: " + p + "\n");
+        } else {
+            JOptionPane.showMessageDialog(this, "Producto no encontrado");
+        }
+    }
+
+    private void limpiarCampos() {
+        txtCodigo.setText("");
+        txtNombre.setText("");
+        txtModelo.setText("");
+        txtPrecio.setText("");
+        txtStock.setText("");
+    }
+}
+
+
